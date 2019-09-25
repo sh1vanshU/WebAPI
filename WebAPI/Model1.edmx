@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="WebApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ProfileTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="Language" Type="varchar" MaxLength="50" />
+          <Property Name="UserID" Type="int" />
+        </EntityType>
+        <EntityType Name="RegistrationTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserRole" Type="varchar" MaxLength="50" />
+          <Property Name="Token" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__Profile__UserID__52593CB8">
+          <End Role="RegistrationTable" Type="Self.RegistrationTable" Multiplicity="0..1" />
+          <End Role="ProfileTable" Type="Self.ProfileTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ProfileTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="WebApiModelStoreContainer">
+          <EntitySet Name="ProfileTable" EntityType="Self.ProfileTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegistrationTable" EntityType="Self.RegistrationTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Profile__UserID__52593CB8" Association="Self.FK__Profile__UserID__52593CB8">
+            <End Role="RegistrationTable" EntitySet="RegistrationTable" />
+            <End Role="ProfileTable" EntitySet="ProfileTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="WebApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="WebApiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ProfileTables" EntityType="WebApiModel.ProfileTable" />
+          <EntitySet Name="RegistrationTables" EntityType="WebApiModel.RegistrationTable" />
+          <AssociationSet Name="FK__Profile__UserID__52593CB81" Association="WebApiModel.FK__Profile__UserID__52593CB81">
+            <End Role="RegistrationTable" EntitySet="RegistrationTables" />
+            <End Role="ProfileTable" EntitySet="ProfileTables" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ProfileTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" />
+          <NavigationProperty Name="RegistrationTable" Relationship="WebApiModel.FK__Profile__UserID__52593CB81" FromRole="ProfileTable" ToRole="RegistrationTable" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RegistrationTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UserRole" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Token" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProfileTables" Relationship="WebApiModel.FK__Profile__UserID__52593CB81" FromRole="RegistrationTable" ToRole="ProfileTable" />
+        </EntityType>
+        <Association Name="FK__Profile__UserID__52593CB81">
+          <End Type="WebApiModel.RegistrationTable" Role="RegistrationTable" Multiplicity="0..1" />
+          <End Type="WebApiModel.ProfileTable" Role="ProfileTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RegistrationTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="ProfileTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="WebApiModelStoreContainer" CdmEntityContainer="WebApiEntities">
+          <EntitySetMapping Name="ProfileTables">
+            <EntityTypeMapping TypeName="WebApiModel.ProfileTable">
+              <MappingFragment StoreEntitySet="ProfileTable">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegistrationTables">
+            <EntityTypeMapping TypeName="WebApiModel.RegistrationTable">
+              <MappingFragment StoreEntitySet="RegistrationTable">
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="UserRole" ColumnName="UserRole" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
